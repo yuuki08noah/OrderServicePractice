@@ -42,4 +42,16 @@ public class Order {
   public String getState() {
     return this.state;
   }
+
+  public Boolean sameId(Long id) {
+    return this.id.equals(id);
+  }
+
+  public void changeStateForce(String state) {
+    this.state = state;
+  }
+
+  public boolean sameState(String state) {
+    return this.state.equals(state);
+  }
 }

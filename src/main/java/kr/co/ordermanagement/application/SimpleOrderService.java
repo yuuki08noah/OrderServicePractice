@@ -4,12 +4,14 @@ import kr.co.ordermanagement.domain.order.Order;
 import kr.co.ordermanagement.domain.order.OrderRepository;
 import kr.co.ordermanagement.domain.product.Product;
 import kr.co.ordermanagement.domain.product.ProductRepository;
+import kr.co.ordermanagement.presentation.dto.ChangeOrderStateRequestDto;
 import kr.co.ordermanagement.presentation.dto.OrderProductRequestDto;
 import kr.co.ordermanagement.presentation.dto.OrderResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SimpleOrderService {
@@ -81,6 +83,18 @@ public class SimpleOrderService {
         });
     }
 
+  public OrderResponseDto changeState(Long orderId, ChangeOrderStateRequestDto changeOrderStateRequestDto) {
+      Order order = orderRepository.findById(orderId);
+      String state = changeOrderStateRequestDto.getState();
+      order.changeStateForce(state);
+      return OrderResponseDto.toDto(order);
+  }
+
+  public List<OrderResponseDto> findByState(String state) {
+      List<Order> orders = orderRepository.findByState(state);
+      List<OrderResponseDto> orderResponseDtos = orders.stream().map(OrderResponseDto::toDto).toList();
+      return orderResponseDtos;
+  }
 }
 
 

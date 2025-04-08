@@ -23,11 +23,18 @@ public class ListOrderRepository implements OrderRepository {
   }
 
   @Override
-  public Order findById(Long id) {
+  public Order findById(Long orderId) {
     return orders.stream()
-            .filter(order -> order.getId().equals(id))
+            .filter(order -> order.sameId(orderId))
             .findFirst()
             .orElseThrow(() -> new EntityNotFoundException("Order not found"));
     // filter: Lambda
+  }
+
+  @Override
+  public List<Order> findByState(String state) {
+    return orders.stream()
+            .filter(order -> order.sameState(state))
+            .toList();
   }
 }
