@@ -98,7 +98,6 @@ public class SimpleOrderService {
 
   public OrderResponseDto cancelById(Long orderId) {
       Order order = orderRepository.findById(orderId);
-      State.checkCancelability();
       order.cancel();
       return OrderResponseDto.toDto(order);
   }
