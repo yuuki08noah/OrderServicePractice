@@ -8,12 +8,12 @@ public class Order {
   private Long id;
   private List<Product> orderedProducts;
   private Integer totalPrice;
-  private String state;
+  private State state;
 
   public Order(List<Product> orderedProducts) {
     this.orderedProducts = orderedProducts;
     this.totalPrice = calculateTotalPrice(orderedProducts);
-    this.state = "CREATE";
+    this.state = State.CREATED;
   }
 
   private Integer calculateTotalPrice(List<Product> orderedProducts) {
@@ -39,7 +39,7 @@ public class Order {
     return this.totalPrice;
   }
 
-  public String getState() {
+  public State getState() {
     return this.state;
   }
 
@@ -47,11 +47,15 @@ public class Order {
     return this.id.equals(id);
   }
 
-  public void changeStateForce(String state) {
+  public void changeStateForce(State state) {
     this.state = state;
   }
 
-  public boolean sameState(String state) {
+  public boolean sameState(State state) {
     return this.state.equals(state);
+  }
+
+  public void cancel() {
+    this.state = State.CANCELED;
   }
 }

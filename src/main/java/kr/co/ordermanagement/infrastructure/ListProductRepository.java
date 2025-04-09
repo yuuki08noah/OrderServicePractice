@@ -37,11 +37,4 @@ public class ListProductRepository implements ProductRepository {
     public List<Product> findAll() {
         return products;
     }
-
-    @Override
-    public void update(Product product) {
-        Integer indexToModify = products.indexOf(product);
-        products.set(indexToModify, product);
-    }
-
 }

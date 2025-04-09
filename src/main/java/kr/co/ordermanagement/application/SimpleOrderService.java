@@ -2,6 +2,7 @@ package kr.co.ordermanagement.application;
 
 import kr.co.ordermanagement.domain.order.Order;
 import kr.co.ordermanagement.domain.order.OrderRepository;
+import kr.co.ordermanagement.domain.order.State;
 import kr.co.ordermanagement.domain.product.Product;
 import kr.co.ordermanagement.domain.product.ProductRepository;
 import kr.co.ordermanagement.presentation.dto.ChangeOrderStateRequestDto;
@@ -78,22 +79,26 @@ public class SimpleOrderService {
 
             Integer orderedAmount = orderedProduct.getAmount();
             product.decreaseAmount(orderedAmount);
-
-            productRepository.update(product);
         });
     }
 
   public OrderResponseDto changeState(Long orderId, ChangeOrderStateRequestDto changeOrderStateRequestDto) {
       Order order = orderRepository.findById(orderId);
-      String state = changeOrderStateRequestDto.getState();
+      State state = changeOrderStateRequestDto.getState();
       order.changeStateForce(state);
       return OrderResponseDto.toDto(order);
   }
 
-  public List<OrderResponseDto> findByState(String state) {
+  public List<OrderResponseDto> findByState(State state) {
       List<Order> orders = orderRepository.findByState(state);
       List<OrderResponseDto> orderResponseDtos = orders.stream().map(OrderResponseDto::toDto).toList();
       return orderResponseDtos;
+  }
+
+  public OrderResponseDto cancelById(Long orderId) {
+      Order order = orderRepository.findById(orderId);
+      order.cancel();
+      return OrderResponseDto.toDto(order);
   }
 }
 

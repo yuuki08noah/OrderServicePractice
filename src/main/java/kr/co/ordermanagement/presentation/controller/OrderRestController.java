@@ -1,6 +1,7 @@
 package kr.co.ordermanagement.presentation.controller;
 
 import kr.co.ordermanagement.application.SimpleOrderService;
+import kr.co.ordermanagement.domain.order.State;
 import kr.co.ordermanagement.presentation.dto.ChangeOrderStateRequestDto;
 import kr.co.ordermanagement.presentation.dto.OrderProductRequestDto;
 import kr.co.ordermanagement.presentation.dto.OrderResponseDto;
@@ -49,12 +50,16 @@ public class OrderRestController {
 
   //주문 상태로 조회 API
   @GetMapping("/orders")
-  public List<OrderResponseDto> getOrdersByState(@RequestParam String state) {
+  public List<OrderResponseDto> getOrdersByState(@RequestParam State state) {
     List<OrderResponseDto> orderResponseDtos = simpleOrderService.findByState(state);
     return orderResponseDtos;
   }
 
   //주문 취소 API
-
+  @PatchMapping("/orders/{orderId}/cancel")
+  public OrderResponseDto cancelOrderById(@PathVariable Long orderId) {
+    OrderResponseDto orderResponseDto = simpleOrderService.cancelById(orderId);
+    return orderResponseDto;
+  }
 
 }
