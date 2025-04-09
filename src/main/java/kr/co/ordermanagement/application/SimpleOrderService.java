@@ -98,9 +98,7 @@ public class SimpleOrderService {
 
   public OrderResponseDto cancelById(Long orderId) {
       Order order = orderRepository.findById(orderId);
-      if (!order.getState().equals(State.CREATED)) {
-        throw new CancelNotAllowedException("이미 취소되었거나 취소할 수 없는 주문상태입니다.");
-      }
+      State.checkCancelability();
       order.cancel();
       return OrderResponseDto.toDto(order);
   }

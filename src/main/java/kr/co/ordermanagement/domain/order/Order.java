@@ -56,6 +56,7 @@ public class Order {
   }
 
   public void cancel() {
+    this.state.checkCancelablility();
     this.state = State.CANCELED;
   }
 }
